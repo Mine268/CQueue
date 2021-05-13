@@ -41,10 +41,14 @@ public:
     CQueue();
 
     /**
-     * 拷贝构造函数，依据另一个队列构造队列
-     * @param from 源
+     * 删除拷贝构造
      */
-    CQueue(const CQueue<type> &from);
+    CQueue(const CQueue<type>&) = delete;
+
+    /**
+     * 删除移动构造
+     */
+    CQueue(CQueue<type>&&) = delete;
 
     /**
      * 析构函数，释放队列的所有资源。
@@ -71,26 +75,18 @@ public:
      * 返回一个指向迭代器，指向当前的队列第一个元素，如果没有元素则指向空。
      * @return 如上
      */
-    iterator begin();
+    iterator begin() const;
 
     /**
      * 返回指向空元素的迭代器
      * @return
      */
-    iterator end();
+    iterator end() const;
 };
 
 template<typename type>
 CQueue<type>::CQueue() : count(0) {
     tail = head = new Element;
-}
-
-template<typename type>
-CQueue<type>::CQueue(const CQueue<type> &from) {
-    tail = head = new Element;
-    count = 0;
-    for (auto it = from.begin(); it != from.end(); ++it)
-        push(it.fetch());
 }
 
 template<typename type>
@@ -176,7 +172,7 @@ void CQueue<type>::remove(CQueue<type>::iterator &x) {
 }
 
 template<typename type>
-typename CQueue<type>::iterator CQueue<type>::begin() {
+typename CQueue<type>::iterator CQueue<type>::begin() const {
     if (head == nullptr)
         return iterator(nullptr);
     else
@@ -184,7 +180,7 @@ typename CQueue<type>::iterator CQueue<type>::begin() {
 }
 
 template<typename type>
-typename CQueue<type>::iterator CQueue<type>::end() {
+typename CQueue<type>::iterator CQueue<type>::end() const {
     return iterator(nullptr);
 }
 
